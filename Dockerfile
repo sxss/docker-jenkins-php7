@@ -1,6 +1,6 @@
-FROM jenkins
+FROM jenkins/jenkins:lts
 
-MAINTAINER jaltek <jaltek@mailbox.org>
+MAINTAINER sxss <zero@fucks.given>
 
 USER root
 
@@ -10,14 +10,14 @@ RUN apt-key adv --keyserver keys.gnupg.net --recv-keys 14AA40EC0831756756D7F66C4
 
 RUN export DEBIAN_FRONTEND=noninteractive; \
     apt-get update; \
-    apt-get -qq install php7.0 php7.0-cli php7.0-xsl php7.0-json php7.0-curl php7.0-sqlite php7.0-mysqlnd php7.0-xdebug php7.0-intl php7.0-mcrypt php7.0-mbstring php-pear curl git ant sudo
+    apt-get -qq install php7.2 php7.2-cli php7.2-xsl php7.2-json php7.2-curl php7.2-sqlite php7.2-mysqlnd php7.2-xdebug php7.2-intl php7.2-mcrypt php7.2-mbstring php-pear curl git ant sudo
 
 RUN /usr/local/bin/install-plugins.sh checkstyle cloverphp crap4j dry htmlpublisher jdepend plot pmd violations warnings xunit git ansicolor ant
 
-RUN sed -i 's|disable_functions.*=|;disable_functions=|' /etc/php/7.0/cli/php.ini; \
-    sed -i 's/^error_reporting = .*/error_reporting = E_ALL \& ~E_STRICT/' /etc/php/7.0/cli/php.ini; \
-    sed -i 's/^display_errors = .*/display_errors = On/' /etc/php/7.0/cli/php.ini; \
-    echo "xdebug.max_nesting_level = 500" >> /etc/php/7.0/mods-available/xdebug.ini
+RUN sed -i 's|disable_functions.*=|;disable_functions=|' /etc/php/7.2/cli/php.ini; \
+    sed -i 's/^error_reporting = .*/error_reporting = E_ALL \& ~E_STRICT/' /etc/php/7.2/cli/php.ini; \
+    sed -i 's/^display_errors = .*/display_errors = On/' /etc/php/7.2/cli/php.ini; \
+    echo "xdebug.max_nesting_level = 500" >> /etc/php/7.2/mods-available/xdebug.ini
 
 RUN mkdir -p /usr/share/jenkins/composer/bin && chown -R jenkins:jenkins /usr/share/jenkins/composer; \
     sudo -H -u jenkins bash -c ' \
